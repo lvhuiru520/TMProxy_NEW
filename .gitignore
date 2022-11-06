@@ -1,0 +1,6 @@
+/dist
+/electron/dist
+/electron/front-build
+node_modules
+.vscode
+.idea

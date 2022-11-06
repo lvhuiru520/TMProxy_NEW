@@ -4,8 +4,8 @@
     "main": "./dist/main.js",
     "scripts": {
         "start": "webpack && electron ./dist/main.js ",
-        "buildElectron": "webpack --mode=production",
-        "app:dist": "npm run buildElectron && electron-builder --windows --x64"
+        "build": "webpack --mode=production",
+        "app:dist-x64": "electron-builder --windows --x64"
     },
     "keywords": [],
     "author": "",
@@ -38,14 +38,12 @@
         "tree-kill": "^1.2.2"
     },
     "build": {
-        "appId": "tm.proxy.test",
-        "productName": "TMProxy-test",
+        "appId": "tm.proxy",
+        "productName": "TMProxy",
         "directories": {
             "output": "../dist/"
         },
-        "win": {
-            "icon": "/favicon.ico"
-        },
+        "win": {},
         "nsis": {
             "oneClick": false,
             "allowElevation": true,

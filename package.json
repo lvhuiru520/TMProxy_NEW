@@ -2,9 +2,10 @@
     "name": "tm-proxy",
     "version": "1.0.0",
     "description": "",
-    "main": "",
     "scripts": {
-        "build-win64": "cd front && npm run build && cd .. && cd electron && npm run app:dist"
+        "build-front": "cd front && npm run build",
+        "build-electron": "cd electron && npm run build && npm run app:dist-x64",
+        "build-win64": "npm run build-front && npm run build-electron "
     },
     "keywords": [],
     "author": "",

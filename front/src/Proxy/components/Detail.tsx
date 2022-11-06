@@ -57,7 +57,7 @@ const ProxyDetail = (
                 port: detail?.port,
                 mode: detail?.mode || "direct",
                 targetId: getDefaultTargetId(detail?.targetId),
-                proxyList: (detail?.proxyList || []).map((item) => {
+                proxyList: detail?.proxyList?.map((item) => {
                     item.targetId = getDefaultTargetId(item.targetId);
                     return item;
                 }),

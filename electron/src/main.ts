@@ -62,6 +62,7 @@ app.whenReady()
     .then((win) => {
         initConfig().then(() => {
             const config = store.get("config");
+            console.log(config, "config");
             autoStart(config.setting.system.autoStart);
             globalShortcut(config.setting.system.shortcuts.showOrHiddenWindow);
         });

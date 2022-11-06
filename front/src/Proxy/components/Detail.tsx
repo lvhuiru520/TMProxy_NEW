@@ -35,7 +35,19 @@ const ProxyDetail = (
             {item.target}
         </Select.Option>
     ));
-
+    const checkTargetIdExist = (targetId) => {
+        return (
+            targetList?.length &&
+            targetList.find((item) => item.id === targetId)
+        );
+    };
+    const getDefaultTargetId = (targetId) => {
+        if (checkTargetIdExist(targetId) && targetId) {
+            return targetId;
+        } else {
+            return undefined;
+        }
+    };
     return (
         <Form
             {...formItemLayout}
@@ -44,8 +56,11 @@ const ProxyDetail = (
                 protocol: detail?.protocol || "http",
                 port: detail?.port,
                 mode: detail?.mode || "direct",
-                targetId: detail?.targetId,
-                proxyList: detail?.proxyList,
+                targetId: getDefaultTargetId(detail?.targetId),
+                proxyList: (detail?.proxyList || []).map((item) => {
+                    item.targetId = getDefaultTargetId(item.targetId);
+                    return item;
+                }),
             }}
             scrollToFirstError
             onValuesChange={onValuesChange}

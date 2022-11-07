@@ -75,6 +75,7 @@ const ProxyGroupFormItem = (props: {
                             value: "*",
                         },
                     ],
+                    changeOrigin: true,
                 },
             ]}
         >
@@ -113,7 +114,6 @@ const ProxyGroupFormItem = (props: {
                                                         noStyle
                                                     >
                                                         <Switch
-                                                            defaultChecked
                                                             checkedChildren="开启"
                                                             unCheckedChildren="关闭"
                                                         />
@@ -226,7 +226,18 @@ const ProxyGroupFormItem = (props: {
                     <FormItemLayout rowGutter={gap} colSpan={ColSpanList[0]}>
                         <Button
                             type="dashed"
-                            onClick={() => add()}
+                            onClick={() =>
+                                add({
+                                    context: ["**"],
+                                    cookieDomainRewrite: [
+                                        {
+                                            key: "*",
+                                            value: "*",
+                                        },
+                                    ],
+                                    changeOrigin: true,
+                                })
+                            }
                             block
                             icon={<PlusOutlined />}
                         >

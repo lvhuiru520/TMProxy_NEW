@@ -64,7 +64,6 @@ const createProxyServer = async ({
     onLogError: (error: string) => void;
 }) => {
     const app = express();
-
     const targetList = store.get("config").proxy.targetList || [];
 
     const logProvider = () => {

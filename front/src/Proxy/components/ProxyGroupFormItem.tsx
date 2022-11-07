@@ -72,7 +72,7 @@ const ProxyGroupFormItem = (props: {
                     cookieDomainRewrite: [
                         {
                             key: "*",
-                            value: "*",
+                            value: "",
                         },
                     ],
                     changeOrigin: true,
@@ -232,7 +232,7 @@ const ProxyGroupFormItem = (props: {
                                     cookieDomainRewrite: [
                                         {
                                             key: "*",
-                                            value: "*",
+                                            value: "",
                                         },
                                     ],
                                     changeOrigin: true,

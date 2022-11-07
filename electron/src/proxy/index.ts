@@ -65,7 +65,7 @@ const createProxyServer = async ({
 }) => {
     const app = express();
     const targetList = store.get("config").proxy.targetList || [];
-
+    console.log(params, "params");
     const logProvider = () => {
         return {
             log: function (message: string) {
@@ -95,7 +95,7 @@ const createProxyServer = async ({
             if (result) {
                 const proxy = createProxyMiddleware("**", {
                     changeOrigin: true,
-                    cookieDomainRewrite: { "*": "*" },
+                    cookieDomainRewrite: { "*": "" },
                     target: result.target,
                     logProvider,
                 });
@@ -116,6 +116,7 @@ const createProxyServer = async ({
                         item.cookieDomainRewrite || [],
                         cookieDomainRewrite
                     );
+                    console.log(cookieDomainRewrite, "cookieDomainRewrite");
                     handleObjectList(item.pathRewrite || [], pathRewrite);
 
                     const proxy = createProxyMiddleware(item.context, {

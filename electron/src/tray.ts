@@ -36,7 +36,7 @@ const handleQuitEvent = () => {
 
 const createTray = (win: BrowserWindow) => {
     const icon = nativeImage.createFromPath(
-        path.join(__dirname, "./assets/logo.png")
+        path.join(__dirname, "./assets/icon.png")
     );
     const tray = new Tray(icon);
     const contextMenu = Menu.buildFromTemplate([

@@ -43,7 +43,10 @@
         "directories": {
             "output": "../dist/"
         },
-        "win": {},
+        "icon": "/favicon.ico",
+        "target": [
+            "nsis"
+        ],
         "nsis": {
             "oneClick": false,
             "allowElevation": true,

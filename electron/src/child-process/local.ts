@@ -9,6 +9,7 @@ const localChildProcess = (script: string) => {
         const localProject = child_process.exec(`npm run ${script}`, {
             cwd: path.dirname(filePath),
             maxBuffer: Math.pow(2, 50),
+            windowsHide: true,
         });
         localProject.unref();
 

@@ -23,7 +23,7 @@ const createWindow = async () => {
         },
         show: false,
         title: "TMProxy",
-        icon: path.join(__dirname, "../assets/logo.png"),
+        icon: path.join(__dirname, "./assets/icon.png"),
         center: true,
         useContentSize: false,
         minWidth: 768,

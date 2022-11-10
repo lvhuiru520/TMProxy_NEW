@@ -35,9 +35,16 @@ const handleQuitEvent = () => {
 };
 
 const createTray = (win: BrowserWindow) => {
-    const icon = nativeImage.createFromPath(
-        path.join(__dirname, "./assets/icon.png")
-    );
+    let icon;
+    if (process.platform === "darwin") {
+        icon = nativeImage.createFromPath(
+            path.join(__dirname, "./assets/icon-16.png")
+        );
+    } else {
+        icon = nativeImage.createFromPath(
+            path.join(__dirname, "./assets/icon.png")
+        );
+    }
     const tray = new Tray(icon);
     const contextMenu = Menu.buildFromTemplate([
         {

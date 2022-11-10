@@ -50,14 +50,16 @@
             ],
             "icon": "favicon.icns"
         },
+        "win": {
+            "icon": "/favicon.ico",
+            "target": [
+                "nsis"
+            ]
+        },
         "productName": "TMProxy",
         "directories": {
             "output": "../dist/"
         },
-        "icon": "/favicon.ico",
-        "target": [
-            "nsis"
-        ],
         "nsis": {
             "oneClick": false,
             "allowElevation": true,

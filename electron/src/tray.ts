@@ -38,7 +38,7 @@ const createTray = (win: BrowserWindow) => {
     let icon;
     if (process.platform === "darwin") {
         icon = nativeImage.createFromPath(
-            path.join(__dirname, "./assets/icon-32.png")
+            path.join(__dirname, "./assets/icon-16.png")
         );
     } else {
         icon = nativeImage.createFromPath(

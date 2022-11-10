@@ -23,7 +23,7 @@ export default (showOrHiddenWindowShortcut: any) => {
     if (win) {
         app.whenReady().then(() => {
             if (showOrHiddenWindowShortcut) {
-                globalShortcut.register(showOrHiddenWindowShortcut, () => {
+                globalShortcut.register("Alt+Q", () => {
                     if (win.isVisible() && !win.isMinimized()) {
                         win.hide();
                     } else {

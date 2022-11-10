@@ -27,9 +27,14 @@ const Setting = (props: { config?: IConfig }) => {
         local: {},
         system: {},
     } as ISetting);
+    const [options, setOptions] = useState<ISetting>({
+        local: {},
+        system: {},
+    } as ISetting);
     useEffect(() => {
         if (config) {
             setSetting(config.setting);
+            setOptions(config.setting);
         }
     }, [config]);
 
@@ -92,8 +97,15 @@ const Setting = (props: { config?: IConfig }) => {
                 options.local.filePath = "";
             }
         }
+        setOptions(options);
+    };
+    const onSave = () => {
         // 调接口
-        modifySettingServer(options);
+        modifySettingServer(options).then((res) => {
+            if (res.success) {
+                message.success("保存成功");
+            }
+        });
     };
 
     return (
@@ -102,8 +114,9 @@ const Setting = (props: { config?: IConfig }) => {
                 overflow: "auto",
                 display: "flex",
                 justifyContent: "center",
-                height: "calc(100vh - 20px)",
+                height: "calc(100vh - 30px)",
                 padding: "20px 10px",
+                marginBottom: 10,
             }}
         >
             <Form
@@ -283,9 +296,15 @@ const Setting = (props: { config?: IConfig }) => {
                             style={{ width: 100 }}
                             placeholder="请输入"
                             allowClear
+                            disabled
                         />
                     </Form.Item>
                 </>
+                <Form.Item>
+                    <Button type="primary" onClick={onSave}>
+                        保存
+                    </Button>
+                </Form.Item>
             </Form>
         </div>
     );

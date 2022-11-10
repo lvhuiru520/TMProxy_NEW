@@ -1,4 +1,12 @@
-import { BrowserWindow, Tray, Menu, nativeImage, app, dialog } from "electron";
+import {
+    BrowserWindow,
+    Tray,
+    Menu,
+    nativeImage,
+    app,
+    dialog,
+    globalShortcut,
+} from "electron";
 import path from "path";
 import treeKill from "tree-kill";
 import { store } from "./store/index";
@@ -64,6 +72,7 @@ const createTray = (win: BrowserWindow) => {
             label: "重启",
             click: () => {
                 handleQuitEvent().then(() => {
+                    globalShortcut.unregisterAll();
                     app.relaunch();
                     app.exit();
                 });
@@ -73,6 +82,7 @@ const createTray = (win: BrowserWindow) => {
             label: "退出",
             click: () => {
                 handleQuitEvent().then(() => {
+                    globalShortcut.unregisterAll();
                     app.exit();
                 });
             },

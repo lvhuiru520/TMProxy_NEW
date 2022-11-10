@@ -5,7 +5,8 @@
     "scripts": {
         "start": "webpack && electron ./dist/main.js ",
         "build": "webpack --mode=production",
-        "app:dist-x64": "electron-builder --windows --x64"
+        "app:dist-x64": "electron-builder --windows --x64",
+        "app:dist-mac": "electron-builder --mac"
     },
     "keywords": [],
     "author": "",
@@ -39,6 +40,16 @@
     },
     "build": {
         "appId": "tm.proxy",
+        "asar": true,
+        "dmg": {
+            "sign": false
+        },
+        "mac": {
+            "target": [
+                "dmg"
+            ],
+            "icon": "favicon.icns"
+        },
         "productName": "TMProxy",
         "directories": {
             "output": "../dist/"

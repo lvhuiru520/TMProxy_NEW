@@ -25,7 +25,8 @@ module.exports = {
     },
     plugins: ["react", "@typescript-eslint"],
     rules: {
-        "linebreak-style": ["error", "windows"],
+        // "linebreak-style": ["error", "windows"],
+        "linebreak-style": "off",
         semi: ["error", "always"],
         "no-duplicate-imports": "error",
         "react/jsx-uses-react": "error",

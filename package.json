@@ -5,7 +5,9 @@
     "scripts": {
         "build-front": "cd front && npm run build",
         "build-electron": "cd electron && npm run build && npm run app:dist-x64",
-        "build-win64": "npm run build-front && npm run build-electron "
+        "build-electron-mac": "cd electron && npm run build && npm run app:dist-mac",
+        "build-win64": "npm run build-front && npm run build-electron",
+        "build-mac": "npm run build-front && npm run build-electron-mac"
     },
     "keywords": [],
     "author": "",

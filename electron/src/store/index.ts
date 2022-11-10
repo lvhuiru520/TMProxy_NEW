@@ -2,6 +2,7 @@ import { IConfig } from "../../../utils/interfaces/config.type";
 import { EServerStatus } from "../../../utils/enums";
 
 import { defaultConfig, setConfig } from "../config/index";
+import { handleSystemConfig } from "./handleSystemChange";
 
 interface IStore {
     config: IConfig;
@@ -33,6 +34,7 @@ class Store {
         return new Promise(async (resolve) => {
             switch (key) {
                 case "config":
+                    handleSystemConfig(this.get("config"), value as IConfig);
                     setConfig(JSON.stringify(value));
                     break;
             }

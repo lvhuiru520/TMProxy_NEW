@@ -105,30 +105,30 @@ const createProxyServer = async ({
         }
         case "advanced": {
             const proxyList = params.proxyList || [];
-            proxyList.forEach((item) => {
-                const result = targetList.find(
-                    (targetItem) => targetItem.id === item.targetId
-                );
-                if (result) {
-                    const cookieDomainRewrite = {};
-                    const pathRewrite = {};
-                    handleObjectList(
-                        item.cookieDomainRewrite || [],
-                        cookieDomainRewrite
+            proxyList
+                .filter((item) => item.enable)
+                .forEach((item) => {
+                    const result = targetList.find(
+                        (targetItem) => targetItem.id === item.targetId
                     );
-                    console.log(cookieDomainRewrite, "cookieDomainRewrite");
-                    handleObjectList(item.pathRewrite || [], pathRewrite);
-
-                    const proxy = createProxyMiddleware(item.context, {
-                        changeOrigin: item.changeOrigin,
-                        cookieDomainRewrite: cookieDomainRewrite,
-                        pathRewrite: pathRewrite,
-                        target: result.target,
-                        logProvider,
-                    });
-                    app.use(proxy);
-                }
-            });
+                    if (result) {
+                        const cookieDomainRewrite = {};
+                        const pathRewrite = {};
+                        handleObjectList(
+                            item.cookieDomainRewrite || [],
+                            cookieDomainRewrite
+                        );
+                        handleObjectList(item.pathRewrite || [], pathRewrite);
+                        const proxy = createProxyMiddleware(item.context, {
+                            changeOrigin: item.changeOrigin,
+                            cookieDomainRewrite: cookieDomainRewrite,
+                            pathRewrite: pathRewrite,
+                            target: result.target,
+                            logProvider,
+                        });
+                        app.use(proxy);
+                    }
+                });
             break;
         }
         case "manual": {

@@ -30,9 +30,10 @@ const CardWithFold = (props: {
     children: ReactNode;
     index: number;
     list: FormListFieldData[];
+    name: number;
     onMove: (from: number, to: number) => void;
 }) => {
-    const { index, onMove, list } = props;
+    const { index, onMove, list, name } = props;
     const [fold, setFold] = useState(true);
 
     const renderArrow = () => {
@@ -65,7 +66,21 @@ const CardWithFold = (props: {
 
     return (
         <Card
-            title={<Badge dot status="processing" />}
+            title={
+                <Space>
+                    <Badge dot status="processing" />
+                    <Form.Item
+                        noStyle
+                        name={[name, "enable"]}
+                        valuePropName="checked"
+                    >
+                        <Switch
+                            checkedChildren="开启"
+                            unCheckedChildren="关闭"
+                        />
+                    </Form.Item>
+                </Space>
+            }
             extra={
                 <Space>
                     {renderArrow()}
@@ -120,6 +135,7 @@ const ProxyGroupFormItem = (props: {
                         },
                     ],
                     changeOrigin: true,
+                    enable: true,
                 },
             ]}
         >
@@ -140,6 +156,7 @@ const ProxyGroupFormItem = (props: {
                                             index={index}
                                             list={fields}
                                             onMove={move}
+                                            name={name}
                                         >
                                             <Form.Item
                                                 label={
@@ -284,6 +301,7 @@ const ProxyGroupFormItem = (props: {
                                         },
                                     ],
                                     changeOrigin: true,
+                                    enable: true,
                                 })
                             }
                             block

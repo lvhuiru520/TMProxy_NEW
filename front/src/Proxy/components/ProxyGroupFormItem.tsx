@@ -5,13 +5,19 @@ import {
     Card,
     Col,
     Form,
+    FormListFieldData,
     Popconfirm,
     Row,
     Select,
+    Space,
     Switch,
 } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-
+import {
+    MinusCircleOutlined,
+    PlusOutlined,
+    ArrowUpOutlined,
+    ArrowDownOutlined,
+} from "@ant-design/icons";
 import ObjectTypeFormItem from "./ObjectTypeFormItem";
 import FormItemLabel from "./FormItemLabel";
 import ListTypeFormItem from "./ListTypeFormItem";
@@ -20,20 +26,58 @@ import FormItemLayout from "./FormItemLayout";
 const gap = 8;
 const ColSpanList = [23, 1];
 
-const CardWithFold = (props: { children: ReactNode }) => {
+const CardWithFold = (props: {
+    children: ReactNode;
+    index: number;
+    list: FormListFieldData[];
+    onMove: (from: number, to: number) => void;
+}) => {
+    const { index, onMove, list } = props;
     const [fold, setFold] = useState(true);
+
+    const renderArrow = () => {
+        const upArrow = (
+            <Button
+                size="small"
+                icon={<ArrowUpOutlined />}
+                onClick={() => {
+                    onMove(index, index - 1);
+                }}
+            />
+        );
+        const downArrow = (
+            <Button
+                size="small"
+                icon={<ArrowDownOutlined />}
+                onClick={() => {
+                    onMove(index, index + 1);
+                }}
+            />
+        );
+
+        return (
+            <>
+                {index !== 0 && upArrow}
+                {index !== list.length - 1 && downArrow}
+            </>
+        );
+    };
+
     return (
         <Card
             title={<Badge dot status="processing" />}
             extra={
-                <Button
-                    size="small"
-                    onClick={() => {
-                        setFold(!fold);
-                    }}
-                >
-                    {fold ? "隐藏" : "展开"}
-                </Button>
+                <Space>
+                    {renderArrow()}
+                    <Button
+                        size="small"
+                        onClick={() => {
+                            setFold(!fold);
+                        }}
+                    >
+                        {fold ? "隐藏" : "展开"}
+                    </Button>
+                </Space>
             }
             bodyStyle={{
                 display: fold ? "unset" : "none",
@@ -79,20 +123,24 @@ const ProxyGroupFormItem = (props: {
                 },
             ]}
         >
-            {(fields, { add, remove }, { errors }) => (
+            {(fields, { add, remove, move }, { errors }) => (
                 <>
                     <Row
                         gutter={[gap, gap]}
                         style={{ paddingBottom: fields?.length ? gap : 0 }}
                     >
-                        {fields.map(({ key, name, ...restField }) => {
+                        {fields.map(({ key, name, ...restField }, index) => {
                             return (
                                 <Col key={key} span={24}>
                                     <FormItemLayout
                                         rowGutter={gap}
                                         colSpan={ColSpanList}
                                     >
-                                        <CardWithFold>
+                                        <CardWithFold
+                                            index={index}
+                                            list={fields}
+                                            onMove={move}
+                                        >
                                             <Form.Item
                                                 label={
                                                     <FormItemLabel>

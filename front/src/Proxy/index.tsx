@@ -1,7 +1,6 @@
-import { Button, Layout, message, Space } from "antd";
+import { BackTop, Button, Layout, message } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { PlayCircleOutlined } from "@ant-design/icons";
-import { FormInstance } from "antd/es/form/Form";
 
 import KillPort from "../components/KillPort";
 import ProxyStartDetail from "./components/StartDetail";
@@ -25,8 +24,13 @@ const Proxy = (props: { config?: IConfig }) => {
     const [proxyData, setProxyData] = useState<IProxy>({} as IProxy);
 
     const ProxyDetailRef = useRef<{
-        form: FormInstance;
+        onValidateFields: (
+            onFinish: (values) => void,
+            onFinishFailed?: ((errorInfo) => void) | undefined
+        ) => void;
     }>();
+
+    const contentRef = useRef<HTMLElement>(null);
     const [detail, setDetail] = useState<IProxyDetail>();
     const ReferTemplateRef = useRef<{
         setVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -66,15 +70,10 @@ const Proxy = (props: { config?: IConfig }) => {
         }
     };
     const onStart = () => {
-        const form = ProxyDetailRef.current?.form;
-        form?.validateFields()
-            .then((values) => {
-                startProxyServer(values);
-                ProxyStartDetailRef.current?.setVisible(true);
-            })
-            .catch((errorInfo) => {
-                console.log(errorInfo, "errorInfo");
-            });
+        ProxyDetailRef.current?.onValidateFields((values) => {
+            startProxyServer(values);
+            ProxyStartDetailRef.current?.setVisible(true);
+        });
     };
 
     return (
@@ -88,6 +87,7 @@ const Proxy = (props: { config?: IConfig }) => {
                         background: "#fff",
                         padding: 10,
                     }}
+                    ref={contentRef}
                 >
                     <ProxyDetail
                         detail={proxyData?.detail}
@@ -97,6 +97,7 @@ const Proxy = (props: { config?: IConfig }) => {
                         }}
                         ref={ProxyDetailRef}
                     />
+                    <BackTop target={() => contentRef.current || window} />
                 </Layout.Content>
                 <Layout.Footer
                     style={{
@@ -129,13 +130,9 @@ const Proxy = (props: { config?: IConfig }) => {
                     >
                         启动
                     </Button>
-                    <div>
-                        <Space>
-                            <Button type="primary" onClick={onSave}>
-                                保存
-                            </Button>
-                        </Space>
-                    </div>
+                    <Button type="primary" onClick={onSave}>
+                        保存
+                    </Button>
                 </Layout.Footer>
             </Layout>
             <ProxyStartDetail ref={ProxyStartDetailRef} />

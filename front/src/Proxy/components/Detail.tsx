@@ -1,5 +1,10 @@
 import { Form, Input, InputNumber, Radio, Select } from "antd";
-import React, { forwardRef, useEffect, useImperativeHandle } from "react";
+import React, {
+    forwardRef,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+} from "react";
 
 import {
     IProxyDetail,
@@ -14,8 +19,7 @@ const ProxyDetail = (
     props: {
         detail?: IProxyDetail;
         targetList?: IProxyTargetList;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onValuesChange?: (changedValues: any, values: any) => void;
+        onValuesChange?: (changedValues, values) => void;
     },
     ref
 ) => {
@@ -23,11 +27,21 @@ const ProxyDetail = (
 
     const [form] = Form.useForm();
     useImperativeHandle(ref, () => ({
-        form,
+        onValidateFields,
     }));
     useEffect(() => {
         form.resetFields();
     }, [detail]);
+
+    const ProxyGroupFormItemRef = useRef<{
+        setSpecifiedFoldInfo: React.Dispatch<
+            React.SetStateAction<{
+                type: "unfold" | "fold";
+                index: number;
+            } | null>
+        >;
+    }>();
+
     const mode = Form.useWatch("mode", form);
 
     const targetOptions = targetList?.map((item) => (
@@ -48,6 +62,33 @@ const ProxyDetail = (
             return undefined;
         }
     };
+    const onValidateFields = (
+        onFinish: (values) => void,
+        onFinishFailed?: (errorInfo) => void
+    ) => {
+        form.validateFields()
+            .then((values) => {
+                onFinish(values);
+            })
+            .catch((errorInfo) => {
+                if (errorInfo?.errorFields?.[0]?.name) {
+                    if (
+                        errorInfo?.errorFields?.[0]?.name?.[0] === "proxyList"
+                    ) {
+                        // 打开折叠的card
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const [name, index] = errorInfo.errorFields[0].name;
+                        ProxyGroupFormItemRef.current?.setSpecifiedFoldInfo({
+                            type: "unfold",
+                            index,
+                        });
+                    }
+                    form.scrollToField(errorInfo.errorFields[0].name);
+                }
+                onFinishFailed?.(errorInfo);
+            });
+    };
+
     return (
         <Form
             {...formItemLayout}
@@ -62,7 +103,6 @@ const ProxyDetail = (
                     return item;
                 }),
             }}
-            scrollToFirstError
             onValuesChange={onValuesChange}
         >
             <Form.Item label="服务">
@@ -131,6 +171,8 @@ const ProxyDetail = (
                     <ProxyGroupFormItem
                         name="proxyList"
                         targetOptions={targetOptions}
+                        form={form}
+                        ref={ProxyGroupFormItemRef}
                     />
                 </Form.Item>
             )}

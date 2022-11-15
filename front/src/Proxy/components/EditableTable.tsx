@@ -158,7 +158,7 @@ function EditableTable<
                             onChange={(e) => {
                                 setEditRow({
                                     ...editRow,
-                                    [editItemKey]: e.target.value,
+                                    [editItemKey]: e.target.value?.trim(),
                                 });
                             }}
                             autoFocus

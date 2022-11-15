@@ -143,7 +143,7 @@ const ProxyDetail = (
                 </Radio.Group>
             </Form.Item>
             {mode === "direct" && (
-                <Form.Item label="target">
+                <Form.Item label="target" required>
                     <Form.Item
                         name="targetId"
                         rules={[

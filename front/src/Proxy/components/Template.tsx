@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Drawer, message } from "antd";
-import { FormInstance } from "antd/es/form/Form";
 import { cloneDeep } from "lodash";
 
 import EditableTable from "./EditableTable";
@@ -24,7 +23,10 @@ const ProxyTemplate = () => {
         {} as IProxyTemplateItem
     );
     const ProxyDetailRef = useRef<{
-        form: FormInstance;
+        onValidateFields: (
+            onFinish: (values) => void,
+            onFinishFailed?: ((errorInfo) => void) | undefined
+        ) => void;
     }>();
     useEffect(() => {
         getConfig();
@@ -92,10 +94,11 @@ const ProxyTemplate = () => {
                         <Button
                             type="primary"
                             onClick={() => {
-                                const form = ProxyDetailRef.current?.form;
-                                form?.validateFields().then((values) => {
-                                    onSaveDetail(values);
-                                });
+                                ProxyDetailRef.current?.onValidateFields(
+                                    (values) => {
+                                        onSaveDetail(values);
+                                    }
+                                );
                             }}
                         >
                             保存

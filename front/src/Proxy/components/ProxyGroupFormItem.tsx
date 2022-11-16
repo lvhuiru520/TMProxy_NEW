@@ -82,6 +82,7 @@ const CardWithFold = (props: {
             <Button
                 size="small"
                 icon={<ArrowUpOutlined />}
+                title="上移"
                 onClick={() => {
                     onMove(index, index - 1);
                 }}
@@ -91,14 +92,37 @@ const CardWithFold = (props: {
             <Button
                 size="small"
                 icon={<ArrowDownOutlined />}
+                title="下移"
                 onClick={() => {
                     onMove(index, index + 1);
                 }}
             />
         );
+        const moveToTop = (
+            <Button
+                size="small"
+                onClick={() => {
+                    onMove(index, 0);
+                }}
+            >
+                移动至顶
+            </Button>
+        );
+        const moveToBottom = (
+            <Button
+                size="small"
+                onClick={() => {
+                    onMove(index, list.length - 1);
+                }}
+            >
+                移动至底
+            </Button>
+        );
 
         return (
             <>
+                {index !== 0 && moveToTop}
+                {index !== list.length - 1 && moveToBottom}
                 {index !== 0 && upArrow}
                 {index !== list.length - 1 && downArrow}
             </>
@@ -349,6 +373,11 @@ const ProxyGroupFormItem = (
                                                                 "context",
                                                             ]}
                                                             minLength={1}
+                                                            getValueFromEvent={(
+                                                                e
+                                                            ) =>
+                                                                e.target.value?.trim()
+                                                            }
                                                         />
                                                     </Form.Item>
                                                     <Form.Item
@@ -365,6 +394,11 @@ const ProxyGroupFormItem = (
                                                                 name,
                                                                 "cookieDomainRewrite",
                                                             ]}
+                                                            getValueFromEvent={(
+                                                                e
+                                                            ) =>
+                                                                e.target.value?.trim()
+                                                            }
                                                         />
                                                     </Form.Item>
                                                     <Form.Item
@@ -381,6 +415,11 @@ const ProxyGroupFormItem = (
                                                                 name,
                                                                 "pathRewrite",
                                                             ]}
+                                                            getValueFromEvent={(
+                                                                e
+                                                            ) =>
+                                                                e.target.value?.trim()
+                                                            }
                                                         />
                                                     </Form.Item>
                                                 </CardWithFold>

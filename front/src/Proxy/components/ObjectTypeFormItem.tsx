@@ -9,8 +9,14 @@ const ObjectTypeFormItem = (props: {
     name: string | [number, string];
     minLength?: number;
     valueRequired?: boolean;
+    getValueFromEvent?: (e: React.ChangeEvent<HTMLInputElement>) => string;
 }) => {
-    const { name, minLength = 0, valueRequired = false } = props;
+    const {
+        name,
+        minLength = 0,
+        valueRequired = false,
+        getValueFromEvent,
+    } = props;
     return (
         <Form.List
             name={name}
@@ -44,6 +50,7 @@ const ObjectTypeFormItem = (props: {
                                             message: "必填项",
                                         },
                                     ]}
+                                    getValueFromEvent={getValueFromEvent}
                                 >
                                     <Input placeholder="请输入" allowClear />
                                 </Form.Item>
@@ -56,6 +63,7 @@ const ObjectTypeFormItem = (props: {
                                             message: "必填项",
                                         },
                                     ]}
+                                    getValueFromEvent={getValueFromEvent}
                                 >
                                     <Input placeholder="请输入" allowClear />
                                 </Form.Item>

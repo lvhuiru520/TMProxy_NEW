@@ -9,8 +9,9 @@ const ColSpanList = [22, 2];
 const ListTypeFormItem = (props: {
     name: string | [number, string];
     minLength?: number;
+    getValueFromEvent?: (e: React.ChangeEvent<HTMLInputElement>) => string;
 }) => {
-    const { name, minLength = 0 } = props;
+    const { name, minLength = 0, getValueFromEvent } = props;
     return (
         <Form.List
             name={name}
@@ -44,6 +45,7 @@ const ListTypeFormItem = (props: {
                                             message: "必填项",
                                         },
                                     ]}
+                                    getValueFromEvent={getValueFromEvent}
                                 >
                                     <Input placeholder="请输入" allowClear />
                                 </Form.Item>

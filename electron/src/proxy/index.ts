@@ -2,6 +2,10 @@ import http from "node:http";
 import events from "node:events";
 import { Socket } from "node:net";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import {
+    OnProxyReqCallback,
+    LogProviderCallback,
+} from "http-proxy-middleware/dist/types";
 import express from "express";
 
 import { store } from "../store";
@@ -9,6 +13,7 @@ import { looseJsonParse } from "../utils";
 import {
     IProxyDetail,
     objectType,
+    proxyLogStatus,
 } from "../../../utils/interfaces/config.type";
 
 events.EventEmitter.defaultMaxListeners = 0;
@@ -50,6 +55,7 @@ const handleObjectList = (
 
 const createProxyServer = async ({
     params,
+    log,
     onStart,
     onClose,
     onAddressInUse,
@@ -57,6 +63,7 @@ const createProxyServer = async ({
     onLogInfo,
 }: {
     params: IProxyDetail;
+    log: { status: proxyLogStatus };
     onStart: (url: string) => void;
     onClose: () => void;
     onAddressInUse: (port: number) => void;
@@ -65,7 +72,6 @@ const createProxyServer = async ({
 }) => {
     const app = express();
     const targetList = store.get("config").proxy.targetList || [];
-    console.log(params, "params");
     const logProvider = () => {
         return {
             log: function (message: string) {
@@ -86,6 +92,21 @@ const createProxyServer = async ({
             },
         };
     };
+    const defaultOptions: {
+        logProvider: LogProviderCallback;
+        onProxyReq: OnProxyReqCallback;
+    } = {
+        logProvider,
+        onProxyReq: (proxyReq, req) => {
+            if (log.status === "start") {
+                const originUrl = `[${req.method}] ${req.protocol}://${req.headers.host}${req.path}`;
+                const targetUrl = `[${proxyReq.method}] ${proxyReq.protocol}//${
+                    proxyReq.getHeaders().host
+                }${proxyReq.path}`;
+                logProvider().log(`${originUrl} ---> ${targetUrl}`);
+            }
+        },
+    };
 
     switch (params.mode) {
         case "direct": {
@@ -97,7 +118,7 @@ const createProxyServer = async ({
                     changeOrigin: true,
                     cookieDomainRewrite: { "*": "" },
                     target: result.target,
-                    logProvider,
+                    ...defaultOptions,
                 });
                 app.use(proxy);
             }
@@ -124,7 +145,7 @@ const createProxyServer = async ({
                             cookieDomainRewrite: cookieDomainRewrite,
                             pathRewrite: pathRewrite,
                             target: result.target,
-                            logProvider,
+                            ...defaultOptions,
                         });
                         app.use(proxy);
                     }
@@ -145,7 +166,7 @@ const createProxyServer = async ({
                             ) {
                                 const proxy = createProxyMiddleware(key, {
                                     ...option,
-                                    logProvider,
+                                    ...defaultOptions,
                                 });
                                 app.use(proxy);
                             }

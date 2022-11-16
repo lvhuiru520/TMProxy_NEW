@@ -6,14 +6,15 @@ import React, {
     useState,
 } from "react";
 
-import { Drawer, Result, Button, message, Spin, Typography } from "antd";
-import { closeProxyServer } from "../../services/proxy";
+import { Drawer, Result, Button, message, Spin, Typography, Space } from "antd";
+import { changeLogStatusServer, closeProxyServer } from "../../services/proxy";
 import {
     onLogError,
     onLogInfo,
     onRemoveAllListeners,
 } from "../../events/proxy";
 import { EServerStatus } from "../../../../utils/enums";
+import { proxyLogStatus } from "../../../../utils/interfaces/config.type";
 const { ipcRenderer } = window.require("electron");
 
 const ProxyStartDetail = (props: {
@@ -22,6 +23,7 @@ const ProxyStartDetail = (props: {
 }) => {
     const { startInfo, status } = props;
     const contentRef = useRef<HTMLDivElement | null>(null);
+    const [logStatus, setLogStatus] = useState<proxyLogStatus>("start");
     const appendChildren = ({ parent, message, type }) => {
         const divDom = document.createElement("div");
         divDom.innerHTML = `${message}   ----->Time:${new Date().toLocaleString()}`;
@@ -46,6 +48,9 @@ const ProxyStartDetail = (props: {
                 type: "info",
             });
         });
+        changeLogStatusServer("start").then(() => {
+            setLogStatus("start");
+        });
         return () => {
             const fn = async () => {
                 await onRemoveAllListeners();
@@ -53,12 +58,28 @@ const ProxyStartDetail = (props: {
             fn();
         };
     }, []);
+    const onClear = () => {
+        if (contentRef.current) {
+            contentRef.current.innerHTML = ""; // 清空
+        }
+    };
+    const onChangeLogStatus = () => {
+        let _logStatus;
+        if (logStatus === "start") {
+            _logStatus = "pause";
+        } else {
+            _logStatus = "start";
+        }
+        changeLogStatusServer(_logStatus).then(() => {
+            setLogStatus(_logStatus);
+        });
+    };
 
     return (
         <div>
             <div
                 style={{
-                    height: "calc(100vh - 350px)",
+                    height: "calc(50vh - 88px)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -98,9 +119,27 @@ const ProxyStartDetail = (props: {
                     </>
                 )}
             </div>
+            <div style={{ marginBottom: 8, textAlign: "right" }}>
+                <Space>
+                    <Button type="primary" onClick={onClear}>
+                        清空
+                    </Button>
+                    {logStatus === "start" ? (
+                        <Button
+                            type="primary"
+                            danger
+                            onClick={onChangeLogStatus}
+                        >
+                            暂停
+                        </Button>
+                    ) : (
+                        <Button onClick={onChangeLogStatus}>开始</Button>
+                    )}
+                </Space>
+            </div>
             <div
                 style={{
-                    height: "calc(100vh - 340px)",
+                    height: "calc(50vh)",
                     overflowY: "auto",
                     color: "#fff",
                     padding: 10,
@@ -108,6 +147,7 @@ const ProxyStartDetail = (props: {
                     scrollBehavior: "smooth",
                     fontSize: 14,
                     whiteSpace: "pre-wrap",
+                    position: "relative",
                 }}
                 ref={contentRef}
             />

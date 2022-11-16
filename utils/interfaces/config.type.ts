@@ -64,6 +64,8 @@ interface IProxyTemplateItem {
 
 type IProxyTemplateList = IProxyTemplateItem[];
 
+type proxyLogStatus = "start" | "pause";
+
 export {
     IConfig,
     IProxyTargetList,
@@ -74,4 +76,5 @@ export {
     IProxy,
     ISetting,
     objectType,
+    proxyLogStatus,
 };

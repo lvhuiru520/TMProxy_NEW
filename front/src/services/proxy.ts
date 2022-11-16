@@ -10,6 +10,9 @@ const onAddressInUseServer = (callback: (port: number) => void) => {
         callback(port);
     });
 };
+const changeLogStatusServer = async (params) => {
+    return await ipcRenderer.invoke("proxy:log-status", params);
+};
 
 const modifyProxy = async (params) => {
     return await ipcRenderer.invoke("proxy:modify", params);
@@ -19,5 +22,6 @@ export {
     startProxyServer,
     closeProxyServer,
     onAddressInUseServer,
+    changeLogStatusServer,
     modifyProxy,
 };

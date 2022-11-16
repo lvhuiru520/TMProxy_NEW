@@ -2,16 +2,31 @@ import { cloneDeep } from "lodash";
 import { ipcMain } from "electron";
 import { store } from "../store/index";
 import { createProxyServer, closeProxyServer } from "../proxy/index";
-import { IProxy } from "../../../utils/interfaces/config.type";
+import { IProxy, proxyLogStatus } from "../../../utils/interfaces/config.type";
 import { EServerStatus } from "../../../utils/enums";
 
 const proxyEventListener = () => {
+    let log: { status: proxyLogStatus } = { status: "start" };
     ipcMain.on(`proxy:close`, () => {
         closeProxyServer();
+    });
+    ipcMain.handle("proxy:log-status", (event, status) => {
+        switch (status) {
+            case "start":
+                log.status = "start";
+                break;
+            case "pause":
+                log.status = "pause";
+                break;
+        }
+        return {
+            success: true,
+        };
     });
     ipcMain.on(`proxy:start`, async (event, params) => {
         createProxyServer({
             params,
+            log,
             onStart: (url: string) => {
                 event.reply(`proxy:listening`, url);
                 store.set("proxyServerStatus", EServerStatus.running);

@@ -71,6 +71,13 @@ const createProxyServer = async ({
     onLogError: (error: string) => void;
 }) => {
     const app = express();
+    params.mockList
+        ?.filter((item) => item.enable)
+        .forEach((item) => {
+            app[item.method](item.path, (req, res) => {
+                res.send(item.data);
+            });
+        });
     const targetList = store.get("config").proxy.targetList || [];
     const logProvider = () => {
         return {

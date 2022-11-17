@@ -10,7 +10,10 @@ import {
     IProxyDetail,
     IProxyTargetList,
 } from "../../../../utils/interfaces/config.type";
+
 import ProxyGroupFormItem from "../components/ProxyGroupFormItem";
+import MockList from "./MockList";
+
 const formItemLayout = {
     labelCol: { span: 2 },
     wrapperCol: { span: 22 },
@@ -34,6 +37,14 @@ const ProxyDetail = (
     }, [detail]);
 
     const ProxyGroupFormItemRef = useRef<{
+        setSpecifiedFoldInfo: React.Dispatch<
+            React.SetStateAction<{
+                type: "unfold" | "fold";
+                index: number;
+            } | null>
+        >;
+    }>();
+    const MockListRef = useRef<{
         setSpecifiedFoldInfo: React.Dispatch<
             React.SetStateAction<{
                 type: "unfold" | "fold";
@@ -72,16 +83,29 @@ const ProxyDetail = (
             })
             .catch((errorInfo) => {
                 if (errorInfo?.errorFields?.[0]?.name) {
-                    if (
-                        errorInfo?.errorFields?.[0]?.name?.[0] === "proxyList"
-                    ) {
+                    const name = errorInfo?.errorFields?.[0]?.name?.[0];
+
+                    if (name === "proxyList" || name === "mockList") {
                         // 打开折叠的card
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
                         const [name, index] = errorInfo.errorFields[0].name;
-                        ProxyGroupFormItemRef.current?.setSpecifiedFoldInfo({
-                            type: "unfold",
-                            index,
-                        });
+                        switch (name) {
+                            case "proxyList": {
+                                ProxyGroupFormItemRef.current?.setSpecifiedFoldInfo(
+                                    {
+                                        type: "unfold",
+                                        index,
+                                    }
+                                );
+                                break;
+                            }
+                            case "mockList": {
+                                MockListRef.current?.setSpecifiedFoldInfo({
+                                    type: "unfold",
+                                    index,
+                                });
+                                break;
+                            }
+                        }
                     }
                     form.scrollToField(errorInfo.errorFields[0].name);
                 }
@@ -102,6 +126,7 @@ const ProxyDetail = (
                     item.targetId = getDefaultTargetId(item.targetId);
                     return item;
                 }),
+                mockList: detail?.mockList,
             }}
             onValuesChange={onValuesChange}
         >
@@ -134,6 +159,9 @@ const ProxyDetail = (
                         />
                     </Form.Item>
                 </Input.Group>
+            </Form.Item>
+            <Form.Item label="mock">
+                <MockList name="mockList" form={form} cardRef={MockListRef} />
             </Form.Item>
             <Form.Item label="模式" name="mode">
                 <Radio.Group>
@@ -172,7 +200,7 @@ const ProxyDetail = (
                         name="proxyList"
                         targetOptions={targetOptions}
                         form={form}
-                        ref={ProxyGroupFormItemRef}
+                        cardRef={ProxyGroupFormItemRef}
                     />
                 </Form.Item>
             )}

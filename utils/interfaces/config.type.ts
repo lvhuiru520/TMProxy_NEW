@@ -5,6 +5,14 @@ interface IProxyDetail {
     targetId?: string;
     proxy?: string;
     proxyList?: IProxyListItem[];
+    mockList?: IMockItem[];
+}
+
+interface IMockItem {
+    enable: boolean;
+    path: string;
+    data: string;
+    method: "get" | "post" | "put" | "delete";
 }
 
 interface IProxy {

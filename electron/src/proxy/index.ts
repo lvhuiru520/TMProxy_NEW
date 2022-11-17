@@ -164,6 +164,7 @@ const createProxyServer = async ({
                 const value = looseJsonParse(params.proxy);
                 if (value) {
                     const createItemProxy = (option: object) => {
+                        let obj: any = {};
                         for (const key in option) {
                             if (
                                 Object.prototype.hasOwnProperty.call(
@@ -171,12 +172,15 @@ const createProxyServer = async ({
                                     key
                                 )
                             ) {
-                                const proxy = createProxyMiddleware(key, {
-                                    ...option,
-                                    ...defaultOptions,
-                                });
-                                app.use(proxy);
+                                obj[key] = option[key];
                             }
+                        }
+                        if (obj.context) {
+                            const proxy = createProxyMiddleware(obj.context, {
+                                ...option,
+                                ...defaultOptions,
+                            });
+                            app.use(proxy);
                         }
                     };
                     if (Array.isArray(value)) {

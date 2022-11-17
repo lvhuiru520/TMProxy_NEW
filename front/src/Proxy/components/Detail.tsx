@@ -127,6 +127,7 @@ const ProxyDetail = (
                     return item;
                 }),
                 mockList: detail?.mockList,
+                proxy: detail?.proxy,
             }}
             onValuesChange={onValuesChange}
         >

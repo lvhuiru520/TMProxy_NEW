@@ -109,6 +109,16 @@ const ProxyGroupFormItem = (props: {
                         getValueFromEvent={(e) => e.target.value?.trim()}
                     />
                 </Form.Item>
+                <Form.Item
+                    label={<FormItemLabel>headers</FormItemLabel>}
+                    {...restField}
+                    {...formItemLayout}
+                >
+                    <ObjectTypeFormItem
+                        name={[name, "headers"]}
+                        getValueFromEvent={(e) => e.target.value?.trim()}
+                    />
+                </Form.Item>
             </>
         );
     };
@@ -119,6 +129,12 @@ const ProxyGroupFormItem = (props: {
                 {
                     key: "*",
                     value: "",
+                },
+            ],
+            headers: [
+                {
+                    key: "Connection",
+                    value: "keep-alive",
                 },
             ],
             changeOrigin: true,

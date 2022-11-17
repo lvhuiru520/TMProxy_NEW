@@ -55,6 +55,7 @@ interface IProxyListItem {
     context: string[];
     cookieDomainRewrite?: objectType[];
     pathRewrite?: objectType[];
+    headers?: objectType[];
     enable: boolean;
 }
 

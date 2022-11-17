@@ -125,6 +125,9 @@ const createProxyServer = async ({
                     changeOrigin: true,
                     cookieDomainRewrite: { "*": "" },
                     target: result.target,
+                    headers: {
+                        Connection: "keep-alive",
+                    },
                     ...defaultOptions,
                 });
                 app.use(proxy);

@@ -43,6 +43,9 @@ interface ISetting {
         port?: number;
         maxRowLength: number;
     };
+    proxy: {
+        maxRowLength: number;
+    };
 }
 
 type objectType = {

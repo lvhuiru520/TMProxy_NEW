@@ -24,6 +24,9 @@ const defaultConfig = {
             scriptList: [],
             file: "[]",
         },
+        proxy: {
+            maxRowLength: 1000,
+        },
     },
 };
 const eStore = new Store({

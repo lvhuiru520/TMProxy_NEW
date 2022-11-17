@@ -20,8 +20,11 @@ const { ipcRenderer } = window.require("electron");
 const ProxyStartDetail = (props: {
     startInfo?: string;
     status: EServerStatus;
+    maxRowLength?: number;
 }) => {
-    const { startInfo, status } = props;
+    let lineNum = 0;
+    const { startInfo, status, maxRowLength = 1000 } = props;
+
     const contentRef = useRef<HTMLDivElement | null>(null);
     const [logStatus, setLogStatus] = useState<proxyLogStatus>("start");
     const appendChildren = ({ parent, message, type }) => {
@@ -30,9 +33,15 @@ const ProxyStartDetail = (props: {
         if (type === "error") {
             divDom.style.color = "red";
         }
-        parent.appendChild(divDom);
+        if (lineNum % maxRowLength === 0) {
+            parent.replaceChildren(divDom);
+        } else {
+            parent.appendChild(divDom);
+        }
         parent.scrollTo(0, parent.scrollHeight);
+        lineNum++;
     };
+
     useEffect(() => {
         onLogError((message) => {
             appendChildren({
@@ -155,7 +164,7 @@ const ProxyStartDetail = (props: {
     );
 };
 
-const Wrapper = (props, ref) => {
+const Wrapper = (props: { maxRowLength?: number }, ref) => {
     const [visible, setVisible] = useState(false);
     useImperativeHandle(ref, () => ({ setVisible }));
     const [detailParams, setDetailParams] = useState<{
@@ -194,7 +203,10 @@ const Wrapper = (props, ref) => {
                 padding: 10,
             }}
         >
-            <ProxyStartDetail {...detailParams} />
+            <ProxyStartDetail
+                {...detailParams}
+                maxRowLength={props.maxRowLength}
+            />
         </Drawer>
     );
 };

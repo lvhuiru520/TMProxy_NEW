@@ -135,7 +135,10 @@ const Proxy = (props: { config?: IConfig }) => {
                     </Button>
                 </Layout.Footer>
             </Layout>
-            <ProxyStartDetail ref={ProxyStartDetailRef} />
+            <ProxyStartDetail
+                ref={ProxyStartDetailRef}
+                maxRowLength={config?.setting?.proxy?.maxRowLength}
+            />
             <KillPort ref={killPortRef} />
             <ReferTemplate
                 ref={ReferTemplateRef}

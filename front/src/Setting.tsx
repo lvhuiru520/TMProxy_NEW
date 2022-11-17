@@ -64,6 +64,9 @@ const Setting = (props: { config?: IConfig }) => {
                 defaultScript: allFields.localDefaultScript,
                 maxRowLength: allFields.localMaxRowLength,
             },
+            proxy: {
+                maxRowLength: allFields.proxyLogMaxRowLength,
+            },
         };
         if ("localFile" in changedFields) {
             const handleLocalFile = () => {
@@ -135,6 +138,7 @@ const Setting = (props: { config?: IConfig }) => {
                     localMaxRowLength: setting?.local?.maxRowLength || 1000,
                     showOrHiddenWindow:
                         setting.system?.shortcuts?.showOrHiddenWindow,
+                    proxyLogMaxRowLength: setting?.proxy?.maxRowLength || 1000,
                 }}
             >
                 <div>
@@ -264,7 +268,7 @@ const Setting = (props: { config?: IConfig }) => {
                             <>
                                 <span>本地项目最大行数</span>
                                 <Tooltip
-                                    title="本地项目输出的内容在页面上超出最大行数时会清除，设置值越大占用内容越大"
+                                    title="本地项目输出的内容在页面上超出最大行数时会清除，设置值越大占用内存越大"
                                     arrowPointAtCenter
                                 >
                                     <QuestionCircleOutlined />
@@ -278,6 +282,26 @@ const Setting = (props: { config?: IConfig }) => {
                             min={1}
                             disabled={!localEnable}
                         />
+                    </Form.Item>
+                </div>
+                <Divider style={{ margin: "0 0 8px" }} />
+                <div>
+                    <Title level={3}>Proxy设置</Title>
+                    <Form.Item
+                        label={
+                            <>
+                                <span>输出日志最大行数</span>
+                                <Tooltip
+                                    title="输出的内容在页面上超出最大行数时会清除，设置值越大占用内存越大"
+                                    arrowPointAtCenter
+                                >
+                                    <QuestionCircleOutlined />
+                                </Tooltip>
+                            </>
+                        }
+                        name="proxyLogMaxRowLength"
+                    >
+                        <InputNumber max={65535} min={1} />
                     </Form.Item>
                 </div>
                 <Divider style={{ margin: "0 0 8px" }} />

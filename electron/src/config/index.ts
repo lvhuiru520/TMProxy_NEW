@@ -8,6 +8,7 @@ const defaultConfig = {
         detail: {},
         templateList: [],
         targetList: [],
+        mockList: [],
     },
     setting: {
         system: {

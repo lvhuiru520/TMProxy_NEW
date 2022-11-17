@@ -54,7 +54,8 @@
         "win": {
             "icon": "/favicon.ico",
             "target": [
-                "nsis"
+                "nsis",
+                "zip"
             ]
         },
         "productName": "TMProxy",

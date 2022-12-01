@@ -82,6 +82,7 @@ const ProxyGroupFormItem = (props: {
                     label={<FormItemLabel>context</FormItemLabel>}
                     {...restField}
                     {...formItemLayout}
+                    required
                 >
                     <ListTypeFormItem
                         name={[name, "context"]}

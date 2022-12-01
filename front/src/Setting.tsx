@@ -98,6 +98,10 @@ const Setting = (props: { config?: IConfig }) => {
                 options.local.defaultScript = undefined;
                 options.local.autoStart = false;
                 options.local.filePath = "";
+                form.setFieldsValue({
+                    localDefaultScript: undefined,
+                    localAutoStart: false,
+                });
             }
         }
         setOptions(options);

@@ -22,7 +22,7 @@ const { Title } = Typography;
 const Setting = (props: { config?: IConfig }) => {
     const { config } = props;
     const [form] = Form.useForm();
-
+    const [scriptList, setScriptList] = useState<string[] | null>();
     const [setting, setSetting] = useState<ISetting>({
         local: {},
         system: {},
@@ -35,6 +35,7 @@ const Setting = (props: { config?: IConfig }) => {
         if (config) {
             setSetting(config.setting);
             setOptions(config.setting);
+            setScriptList(config.setting.local?.scriptList || []);
         }
     }, [config]);
 
@@ -93,11 +94,13 @@ const Setting = (props: { config?: IConfig }) => {
             };
             if (allFields.localFile?.length) {
                 await handleLocalFile();
+                setScriptList(options.local.scriptList);
             } else {
                 options.local.scriptList = [];
                 options.local.defaultScript = undefined;
                 options.local.autoStart = false;
                 options.local.filePath = "";
+                setScriptList(options.local.scriptList);
                 form.setFieldsValue({
                     localDefaultScript: undefined,
                     localAutoStart: false,
@@ -243,7 +246,7 @@ const Setting = (props: { config?: IConfig }) => {
                             placeholder="请选择自启动执行的选项"
                             allowClear
                         >
-                            {setting.local?.scriptList?.map((item) => (
+                            {scriptList?.map((item) => (
                                 <Select.Option value={item} key={item}>
                                     {item}
                                 </Select.Option>

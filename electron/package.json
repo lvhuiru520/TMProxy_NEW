@@ -1,6 +1,6 @@
 {
     "name": "tm-proxy-electron",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "main": "./dist/main.js",
     "scripts": {
         "start": "webpack && electron ./dist/main.js ",
@@ -47,7 +47,8 @@
         "artifactName": "${productName}${version}.${ext}",
         "mac": {
             "target": [
-                "dmg"
+                "dmg",
+                "zip"
             ],
             "icon": "favicon.icns"
         },

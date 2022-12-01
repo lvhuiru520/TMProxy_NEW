@@ -54,6 +54,12 @@ const createWindow = async () => {
         e.preventDefault();
         win.hide();
     });
+
+    app.on("activate", () => {
+        if (win) {
+            win.show();
+        }
+    });
     return win;
 };
 

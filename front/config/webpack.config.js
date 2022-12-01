@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
     entry: path.join(__dirname, "../src/index.tsx"),
     resolve: {
@@ -49,9 +49,24 @@ module.exports = {
                 test: /\.(png|jpg|gif)$/,
                 use: ["file-loader"],
             },
+            {
+                test: /\.md$/,
+                use: [
+                    {
+                        loader: "html-loader",
+                    },
+                    {
+                        loader: "webpack-markdown-loader",
+                        options: {
+                            html: true,
+                        },
+                    },
+                ],
+            },
         ],
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "../public/index.html"),
             hash: true,

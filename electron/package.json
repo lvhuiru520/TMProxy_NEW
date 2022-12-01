@@ -44,18 +44,17 @@
         "dmg": {
             "sign": false
         },
+        "artifactName": "${productName}${version}.${ext}",
         "mac": {
             "target": [
-                "dmg",
-                "zip"
+                "dmg"
             ],
             "icon": "favicon.icns"
         },
         "win": {
             "icon": "/favicon.ico",
             "target": [
-                "nsis",
-                "zip"
+                "nsis"
             ]
         },
         "productName": "TMProxy",

@@ -1,6 +1,6 @@
 {
     "name": "tm-proxy-electron",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "main": "./dist/main.js",
     "scripts": {
         "start": "webpack && electron ./dist/main.js ",

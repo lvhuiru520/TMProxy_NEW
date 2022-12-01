@@ -145,16 +145,19 @@ const createProxyServer = async ({
                     if (result) {
                         const cookieDomainRewrite = {};
                         const pathRewrite = {};
+                        const headers = {};
                         handleObjectList(
                             item.cookieDomainRewrite || [],
                             cookieDomainRewrite
                         );
                         handleObjectList(item.pathRewrite || [], pathRewrite);
+                        handleObjectList(item.headers || [], headers);
                         const proxy = createProxyMiddleware(item.context, {
                             changeOrigin: item.changeOrigin,
                             cookieDomainRewrite: cookieDomainRewrite,
                             pathRewrite: pathRewrite,
                             target: result.target,
+                            headers,
                             ...defaultOptions,
                         });
                         app.use(proxy);

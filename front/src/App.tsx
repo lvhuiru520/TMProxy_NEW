@@ -45,6 +45,7 @@ export default function App() {
 
     const onGetConfig = async () => {
         return await getConfigServer().then((res) => {
+            console.log(res, "config");
             setConfig(res);
             return res;
         });

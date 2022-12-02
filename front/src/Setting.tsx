@@ -27,14 +27,9 @@ const Setting = (props: { config?: IConfig }) => {
         local: {},
         system: {},
     } as ISetting);
-    const [options, setOptions] = useState<ISetting>({
-        local: {},
-        system: {},
-    } as ISetting);
     useEffect(() => {
         if (config) {
             setSetting(config.setting);
-            setOptions(config.setting);
             setScriptList(config.setting.local?.scriptList || []);
         }
     }, [config]);
@@ -94,24 +89,23 @@ const Setting = (props: { config?: IConfig }) => {
             };
             if (allFields.localFile?.length) {
                 await handleLocalFile();
-                setScriptList(options.local.scriptList);
             } else {
                 options.local.scriptList = [];
                 options.local.defaultScript = undefined;
                 options.local.autoStart = false;
                 options.local.filePath = "";
-                setScriptList(options.local.scriptList);
                 form.setFieldsValue({
                     localDefaultScript: undefined,
                     localAutoStart: false,
                 });
             }
+            setScriptList(options.local.scriptList);
         }
-        setOptions(options);
+        setSetting(options);
     };
     const onSave = () => {
         // 调接口
-        modifySettingServer(options).then((res) => {
+        modifySettingServer(setting).then((res) => {
             if (res.success) {
                 message.success("保存成功");
             }

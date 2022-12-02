@@ -77,6 +77,7 @@ const MockList = (props: {
                 return (
                     <>
                         <Button
+                            size="small"
                             onClick={() => {
                                 const data = form.getFieldValue([
                                     name,

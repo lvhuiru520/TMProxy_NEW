@@ -129,6 +129,8 @@ const CardWithFold = (props: {
     };
     return (
         <Card
+            headStyle={{ background: "#e9e9e9" }}
+            hoverable
             title={
                 <div
                     onClick={() => {

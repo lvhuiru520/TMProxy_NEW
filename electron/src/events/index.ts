@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
 import { store } from "../store/index";
 import killPort from "kill-port";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash.clonedeep";
 const mainEventListener = () => {
     ipcMain.handle(`main:get-config`, () => {
         return store.get("config");

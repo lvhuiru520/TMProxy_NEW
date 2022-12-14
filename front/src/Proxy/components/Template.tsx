@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Drawer, message } from "antd";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash.clonedeep";
 
 import EditableTable from "./EditableTable";
 import ProxyDetail from "./Detail";

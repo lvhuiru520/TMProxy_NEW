@@ -26,7 +26,7 @@ import {
     ArrowDownOutlined,
 } from "@ant-design/icons";
 import FormItemLayout from "./FormItemLayout";
-
+import styled from "../styles/CardFormList.less";
 const gap = 8;
 const ColSpanList = [23, 1];
 
@@ -131,6 +131,7 @@ const CardWithFold = (props: {
         <Card
             headStyle={{ background: "#e9e9e9" }}
             hoverable
+            className={styled["group-card"]}
             title={
                 <div
                     onClick={() => {

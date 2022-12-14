@@ -11,9 +11,9 @@ import {
 } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash.clonedeep";
 
-import { uuid } from "../../utils/tools";
+import { uuid } from "../../../../utils/tools";
 
 function EditableTable<
     T extends {

@@ -19,6 +19,7 @@ interface IProxy {
     targetList: IProxyTargetList;
     templateList: IProxyTemplateList;
     detail: IProxyDetail;
+    mockList?: IMockItem[];
 }
 
 interface IConfig {

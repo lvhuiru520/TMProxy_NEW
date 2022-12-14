@@ -1,9 +1,10 @@
 import Store from "electron-store";
 
 import { store } from "../store/index";
-
+import { IConfig } from "../../../utils/interfaces/config.type";
+import { handlePreset } from "./preset";
 // 默认值
-const defaultConfig = {
+const defaultConfig: IConfig = {
     proxy: {
         detail: {},
         templateList: [],
@@ -43,6 +44,7 @@ const initConfig = async () => {
             store.set("config", JSON.parse(result.toString() || "{}"));
             resolve();
         } else {
+            handlePreset(defaultConfig);
             eStore.set("tm-config", defaultConfig);
             resolve();
         }

@@ -1,5 +1,6 @@
-import { cloneDeep } from "lodash";
 import { ipcMain } from "electron";
+import cloneDeep from "lodash.clonedeep";
+
 import { store } from "../store/index";
 import { createProxyServer, closeProxyServer } from "../proxy/index";
 import { IProxy, proxyLogStatus } from "../../../utils/interfaces/config.type";

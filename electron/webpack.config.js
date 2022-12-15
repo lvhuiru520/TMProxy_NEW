@@ -6,7 +6,6 @@ module.exports = {
     output: {
         path: path.join(__dirname, "./dist/"),
         filename: "main.js",
-        publicPath: "/",
     },
     resolve: {
         extensions: [".js", ".jsx", ".tsx", ".ts"],
@@ -39,10 +38,6 @@ module.exports = {
                 {
                     from: path.resolve(__dirname, "./src/assets/"),
                     to: "assets",
-                },
-                {
-                    from: path.resolve(__dirname, "./front-build"),
-                    to: "front",
                 },
             ],
         }),

@@ -47,7 +47,26 @@ const ProxyGroupFormItem = (props: {
                         </Form.Item>
                     </FormItemLayout>
                 </Form.Item>
-
+                <Form.Item
+                    label={<FormItemLabel>ws</FormItemLabel>}
+                    {...restField}
+                    {...formItemLayout}
+                >
+                    <FormItemLayout colSpan={24}>
+                        <Form.Item
+                            name={[name, "ws"]}
+                            valuePropName="checked"
+                            {...restField}
+                            {...formItemLayout}
+                            noStyle
+                        >
+                            <Switch
+                                checkedChildren="true"
+                                unCheckedChildren="false"
+                            />
+                        </Form.Item>
+                    </FormItemLayout>
+                </Form.Item>
                 <Form.Item
                     label={<FormItemLabel>target</FormItemLabel>}
                     {...restField}

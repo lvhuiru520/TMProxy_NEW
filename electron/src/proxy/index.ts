@@ -158,6 +158,7 @@ const createProxyServer = async ({
                             pathRewrite: pathRewrite,
                             target: result.target,
                             headers,
+                            ws: item.ws,
                             ...defaultOptions,
                         });
                         app.use(proxy);

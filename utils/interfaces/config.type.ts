@@ -61,6 +61,7 @@ interface IProxyListItem {
     pathRewrite?: objectType[];
     headers?: objectType[];
     enable: boolean;
+    ws?: boolean;
 }
 
 interface IProxyTargetItem {

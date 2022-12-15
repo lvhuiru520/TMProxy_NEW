@@ -30,17 +30,13 @@ const defaultConfig: IConfig = {
         },
     },
 };
-const eStore = new Store({
-    defaults: {
-        "tm-config": JSON.stringify(defaultConfig),
-    },
-});
+const eStore = new Store<IConfig>();
 
 // 初始化config
 const initConfig = async () => {
     return new Promise<void>((resolve) => {
         if (eStore.has("tm-config")) {
-            const result = eStore.get("tm-config");
+            const result: IConfig = eStore.get("tm-config");
             store.set("config", JSON.parse(result.toString() || "{}"));
             resolve();
         } else {

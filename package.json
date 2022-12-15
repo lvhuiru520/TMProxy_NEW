@@ -1,5 +1,5 @@
 {
-    "name": "tm-proxy",
+    "name": "tm-proxy-electron",
     "version": "1.0.2",
     "main": "./electron/dist/main.js",
     "scripts": {
